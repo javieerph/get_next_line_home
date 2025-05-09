@@ -6,37 +6,80 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:34:16 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/03 10:15:08 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:47:31 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	read_file(char *file_name, void *buffer, unsigned bytes)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	void *str;
-	int	readed;
-	int	file;
+	size_t	len;
+	char	*s3;
 
-	str = malloc(bytes * sizeof(char));
-	file = open(file_name, "r");
-	if (file == -1)
-	{
-		write(1,"Error opening file",18);
-		exit(1);
-	}
-	else
-	{
-		readed = read(file_name, str, bytes);
-	}
-	while (str)
-	{
-		write(1, &str, 1);
-		str++;	
-	}
-	write(1, "\n", 1);
-	close(file_name);
-	free(str);
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	s3 = (char *)ft_calloc((len + 1), sizeof(char));
+	if (s3 == NULL)
+		return (NULL);
+	ft_strlcpy(s3, s1, ft_strlen(s1) + 1);
+	ft_strlcat(s3, (char *)s2, len + 1);
+	return (s3);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
 
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if ((unsigned char)s[i] == (unsigned char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	if ((unsigned char)c == '\0')
+		return ((char *)(s + i));
+	else
+		return (NULL);
+}
+
+void	ft_bzero(void *s, size_t len)
+{
+	unsigned char	*ptr;
+	size_t			i;
+
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (i < len)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t nelem, size_t elsize)
+{
+	void	*ptr;
+
+	if (elsize != 0 && nelem > SIZE_MAX / elsize)
+		return (NULL);
+	ptr = malloc(nelem * elsize);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, (nelem * elsize));
+	return (ptr);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}

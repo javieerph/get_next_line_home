@@ -6,7 +6,7 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:01:44 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/03 09:36:43 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:52:10 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,12 @@
 # include <unistd.h>
 # include <stdio.h>
 
-char    *get_next_line(int fd);
+# define BUFFER_SIZE 42
+
+char	*get_next_line(int fd);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
+void	ft_bzero(void *s, size_t len);
+void	*ft_calloc(size_t nelem, size_t elsize);
+size_t	ft_strlen(const char *str);
 #endif
