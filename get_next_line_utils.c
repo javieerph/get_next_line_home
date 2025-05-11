@@ -6,7 +6,7 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:34:16 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/09 20:47:31 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/11 07:44:53 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ void	ft_bzero(void *s, size_t len)
 	}
 }
 
-void	*ft_calloc(size_t nelem, size_t elsize)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
-	if (elsize != 0 && nelem > SIZE_MAX / elsize)
+	if (size != 0 && nmemb > SIZE_MAX / size)
 		return (NULL);
-	ptr = malloc(nelem * elsize);
+	ptr = malloc(nmemb * size);
 	if (ptr == NULL)
 		return (NULL);
-	ft_bzero(ptr, (nelem * elsize));
+	ft_bzero(ptr, (nmemb * size));
 	return (ptr);
 }
 
