@@ -6,16 +6,17 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 09:44:45 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/11 07:43:35 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/11 09:42:32 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 char	*ft_joinfree(char *buffer, char *buf);
-char	*ft_next(char *buffer);
-char	*ft_line(char *buffer);
 char	*read_file(int fd, char *str);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+size_t	ft_strlcat(char *dest, const char *src,
+			size_t destsize);
 
 char	*get_next_line(int fd)
 {
@@ -39,51 +40,6 @@ char	*ft_joinfree(char *buffer, char *buf)
 	join = ft_strjoin(buffer, buf);
 	free(buffer);
 	return (join);
-}
-
-char	*ft_next(char *buffer)
-{
-	int		i;
-	int		j;
-	char	*remain;
-
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (!buffer[i])
-	{
-		free(buffer);
-		return (NULL);
-	}
-	remain = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
-	i++;
-	j = 0;
-	while (buffer[i])
-		remain[j++] = buffer[i++];
-	free(buffer);
-	return (remain);
-}
-
-char	*ft_line(char *buffer)
-{
-	char	*line;
-	int		i;
-
-	i = 0;
-	if (!buffer[i])
-		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	line = ft_calloc(i + 2, sizeof(char));
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] && buffer[i] == '\n')
-		line[i++] = '\n';
-	return (line);
 }
 
 char	*read_file(int fd, char *str)
@@ -110,4 +66,55 @@ char	*read_file(int fd, char *str)
 	}
 	free(buffer);
 	return (str);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (size > 0)
+	{
+		while (src[i] != '\0' && i < size - 1)
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = 0;
+	}
+	return (ft_strlen(src));
+}
+
+size_t	ft_strlcat(char *dest, const char *src,
+	size_t destsize)
+{
+	size_t	destlen;
+	size_t	srclen;
+	size_t	bytes;
+	size_t	i;
+
+	destlen = ft_strlen(dest);
+	srclen = ft_strlen(src);
+	if (destsize <= destlen)
+		return (srclen + destsize);
+	bytes = destsize - destlen - 1;
+	i = 0;
+	while (src[i] != '\0' && i < bytes)
+	{
+		dest[destlen + i] = src[i];
+		i++;
+	}
+	dest[destlen + i] = '\0';
+	return (destlen + srclen);
+}
+#include <stdio.h>
+int main(void)
+{
+	char buffer[] = "Hola, Edgar!\n¿Cómo estás?\nEspero que bien.";
+	char *next_line = ft_next(buffer);
+
+	printf("%s", next_line); // Salida: "¿Cómo estás?\nEspero que bien."
+
+	free(next_line); // Liberar memoria después de usarlo
+	return (0);
 }
