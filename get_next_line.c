@@ -6,7 +6,7 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 09:44:45 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/11 09:42:32 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:13:42 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*read_file(int fd, char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, const char *src,
 			size_t destsize);
+char	*get_next_line(int fd);
 
 char	*get_next_line(int fd)
 {
@@ -50,6 +51,8 @@ char	*read_file(int fd, char *str)
 	if (!str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
 	byte_numb = 1;
 	while (byte_numb > 0)
 	{
@@ -106,15 +109,4 @@ size_t	ft_strlcat(char *dest, const char *src,
 	}
 	dest[destlen + i] = '\0';
 	return (destlen + srclen);
-}
-#include <stdio.h>
-int main(void)
-{
-	char buffer[] = "Hola, Edgar!\n¿Cómo estás?\nEspero que bien.";
-	char *next_line = ft_next(buffer);
-
-	printf("%s", next_line); // Salida: "¿Cómo estás?\nEspero que bien."
-
-	free(next_line); // Liberar memoria después de usarlo
-	return (0);
 }

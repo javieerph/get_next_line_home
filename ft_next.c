@@ -6,7 +6,7 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 08:04:11 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/11 08:12:13 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:02:33 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*ft_next(char *buffer)
 		return (NULL);
 	}
 	remain = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	if (!remain)
+		return (NULL);
 	i++;
 	j = 0;
 	while (buffer[i])
