@@ -6,7 +6,7 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:01:44 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/18 11:05:16 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/24 00:30:04 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-void	ft_bzero(void *s, size_t len);
 void	*ft_calloc(size_t nelem, size_t elsize);
 size_t	ft_strlen(const char *str);
-char	*ft_joinfree(char *buffer, char *buf);
 char	*ft_next(char *buffer);
 char	*ft_line(char *buffer);
 char	*read_file(int fd, char *res);

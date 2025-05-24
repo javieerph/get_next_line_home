@@ -6,13 +6,12 @@
 /*   By: ejavier- <ejavier-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 09:44:45 by ejavier-          #+#    #+#             */
-/*   Updated: 2025/05/18 11:13:42 by ejavier-         ###   ########.fr       */
+/*   Updated: 2025/05/24 04:05:16 by ejavier-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_joinfree(char *buffer, char *buf);
 char	*read_file(int fd, char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlcat(char *dest, const char *src,
@@ -24,23 +23,27 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		if (buffer)
+		{
+			free(buffer);
+			buffer = NULL;
+		}
 		return (NULL);
+	}
 	buffer = read_file(fd, buffer);
 	if (!buffer)
 		return (NULL);
 	line = ft_line(buffer);
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
 	buffer = ft_next(buffer);
 	return (line);
-}
-
-char	*ft_joinfree(char *buffer, char *buf)
-{
-	char	*join;
-
-	join = ft_strjoin(buffer, buf);
-	free(buffer);
-	return (join);
 }
 
 char	*read_file(int fd, char *str)
@@ -50,25 +53,25 @@ char	*read_file(int fd, char *str)
 
 	if (!str)
 		str = ft_calloc(1, 1);
+	if (!str)
+		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
-		return (NULL);
+		return (free(str), NULL);
 	byte_numb = 1;
 	while (byte_numb > 0)
 	{
 		byte_numb = read(fd, buffer, BUFFER_SIZE);
 		if (byte_numb == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free(buffer), free(str), NULL);
 		buffer[byte_numb] = '\0';
-		str = ft_joinfree(str, buffer);
+		str = ft_strjoin(str, buffer);
+		if (!str)
+			return (free(buffer), NULL);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	free(buffer);
-	return (str);
+	return (free(buffer), str);
 }
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
@@ -109,4 +112,29 @@ size_t	ft_strlcat(char *dest, const char *src,
 	}
 	dest[destlen + i] = '\0';
 	return (destlen + srclen);
+}
+
+char	*ft_next(char *buffer)
+{
+	size_t	i;
+	int		j;
+	char	*remain;
+
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (!buffer[i])
+	{
+		free(buffer);
+		return (NULL);
+	}
+	remain = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	if (!remain)
+		return (free(buffer), NULL);
+	i++;
+	j = 0;
+	while (buffer[i])
+		remain[j++] = buffer[i++];
+	free(buffer);
+	return (remain);
 }
